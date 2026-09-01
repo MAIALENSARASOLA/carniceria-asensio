@@ -1,0 +1,410 @@
+/* ===================== TOKENS ===================== */
+:root{
+  --ivory:#F4F0E8;
+  --paper:#EEE5D3;
+  --carbon:#191714;
+  --burgundy:#5E1B25;
+  --forest:#22352A;
+  --sand:#C6A77B;
+  --white:#FFFFFF;
+
+  --font-display:'Cormorant Garamond', serif;
+  --font-body:'DM Sans', sans-serif;
+
+  --radius:2px;
+  --max-w:1180px;
+  --gap:clamp(1.5rem, 4vw, 3.5rem);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+/* Evita que el header pegajoso tape los títulos al saltar con anclas (#pedidos, #resenas, etc.) */
+section[id]{scroll-margin-top:88px;}
+@media (max-width:860px){section[id]{scroll-margin-top:76px;}}
+body{
+  margin:0;
+  background:var(--ivory);
+  color:var(--carbon);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.1;margin:0 0 .5em;}
+h1{font-size:clamp(2.6rem,6vw,4.4rem);}
+h2{font-size:clamp(2rem,4vw,2.9rem);}
+p{margin:0 0 1em;}
+:focus-visible{outline:3px solid var(--sand);outline-offset:2px;}
+button{font-family:inherit;cursor:pointer;}
+
+/* ===================== BUTTONS ===================== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  padding:.9rem 1.7rem;
+  font-size:.95rem;font-weight:700;letter-spacing:.02em;
+  border-radius:var(--radius);
+  border:1px solid transparent;
+  min-height:44px;
+  transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
+}
+.btn:hover{transform:translateY(-1px);}
+
+/* Acción principal: pedir por WhatsApp. Debe ganar siempre al botón secundario */
+.btn-whatsapp{
+  background:var(--forest);color:var(--ivory);
+  box-shadow:0 4px 14px rgba(34,53,42,.28);
+  font-size:1rem;
+  padding:1rem 1.9rem;
+}
+.btn-whatsapp:hover{background:#1a2b21;box-shadow:0 6px 18px rgba(34,53,42,.36);}
+
+/* Acción secundaria: más discreta a propósito, no compite con WhatsApp */
+.btn-outline{
+  background:transparent;color:var(--carbon);
+  border-color:rgba(25,23,20,.35);
+  font-weight:500;
+  padding:.9rem 1.5rem;
+}
+.btn-outline:hover{border-color:currentColor;transform:none;}
+.hero .btn-outline{color:var(--ivory);border-color:rgba(244,240,232,.5);}
+.hero .btn-outline:hover{border-color:var(--ivory);}
+
+/* ===================== HEADER ===================== */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem clamp(1.2rem,4vw,3rem);
+  /* Antes llevaba backdrop-filter:blur(6px) para el efecto "cristal".
+     Se ha quitado a propósito: backdrop-filter crea sin querer una
+     nueva "caja de referencia" para cualquier elemento position:fixed
+     que esté dentro (como el menú móvil), y eso hacía que el menú se
+     quedara encogido a la altura del propio header en vez de ocupar
+     toda la pantalla — el motivo real de que "Euskara" y otros
+     enlaces no se vieran bien en móvil. Se compensa con un fondo algo
+     más opaco para que el header siga viéndose sólido y legible. */
+  background:rgba(244,240,232,.97);
+  border-bottom:1px solid rgba(25,23,20,.08);
+}
+.brand{display:flex;flex-direction:column;line-height:1.1;}
+.brand-eyebrow{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);}
+.brand-name{font-family:var(--font-display);font-size:1.5rem;font-weight:600;}
+.main-nav{display:flex;gap:1.8rem;}
+.main-nav a{font-size:.9rem;font-weight:500;}
+.main-nav a:hover{color:var(--burgundy);}
+.header-actions{display:flex;align-items:center;gap:1rem;}
+.lang-switch{
+  display:flex;align-items:center;gap:0;
+  font-size:.78rem;font-weight:700;letter-spacing:.03em;
+  border:1.5px solid var(--burgundy);border-radius:100px;
+  overflow:hidden;
+}
+.lang-btn{
+  background:none;border:none;
+  padding:.45rem .8rem;
+  min-height:36px;min-width:38px;
+  color:var(--burgundy);opacity:.65;
+  cursor:pointer;
+}
+.lang-btn.is-active{opacity:1;background:var(--burgundy);color:var(--ivory);}
+
+/* Selector de idioma duplicado dentro del menú móvil desplegable:
+   se muestra bien grande y arriba del todo, para que sea imposible
+   no verlo al abrir el menú (☰) en el móvil. */
+.lang-switch--mobile{
+  display:none;
+  width:100%;
+  border-radius:8px;
+  border-width:2px;
+  margin-bottom:.5rem;
+}
+.lang-switch--mobile .lang-btn{
+  flex:1;
+  font-size:1rem;
+  padding:.9rem 1rem;
+  min-height:52px;
+  text-align:center;
+}
+.header-wa{padding:.6rem 1.1rem;font-size:.82rem;min-height:auto;}
+.menu-toggle{display:none;background:none;border:none;width:30px;height:22px;position:relative;padding:0;}
+.menu-toggle span{position:absolute;left:0;width:100%;height:2px;background:var(--carbon);transition:.2s;}
+.menu-toggle span:nth-child(1){top:0;}
+.menu-toggle span:nth-child(2){top:10px;}
+.menu-toggle span:nth-child(3){top:20px;}
+
+/* Bloquea el scroll de la página cuando el menú móvil está abierto,
+   así el contenido de detrás no se puede desplazar mientras el panel
+   negro/oscuro del menú sigue visible encima. */
+html.nav-open,
+html.nav-open body{
+  overflow:hidden;
+  height:100%;
+}
+
+/* Fondo oscuro semitransparente detrás del menú móvil: además de decorativo,
+   sirve para cerrar el menú si el usuario toca fuera de él. */
+.nav-backdrop{
+  display:none;
+  position:fixed;inset:0;z-index:45;
+  background:rgba(25,23,20,.45);
+  opacity:0;transition:opacity .25s ease;
+}
+
+@media (max-width:860px){
+  .site-header{position:sticky;} /* asegura que top:0 aplica también en móvil */
+
+  .main-nav{
+    position:fixed;
+    /* var(--header-h) se calcula por JS con la altura REAL del header en
+       cada móvil (antes era un valor fijo de 64px que no coincidía con
+       todos los tamaños de pantalla, dejando el menú mal encajado). */
+    top:var(--header-h, 64px);
+    left:0;right:0;bottom:0;
+    z-index:55;
+    background:var(--ivory);
+    flex-direction:column;padding:2rem;gap:1.5rem;
+    transform:translateY(-110%);transition:transform .25s ease;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .main-nav.is-open{transform:translateY(0);}
+  .main-nav a{font-size:1.3rem;}
+  .lang-switch--mobile{display:flex;}
+  .header-wa{display:none;}
+  .menu-toggle{display:block;}
+
+  .nav-backdrop.is-open{display:block;opacity:1;}
+}
+
+/* ===================== HERO ===================== */
+.hero{
+  position:relative;min-height:92vh;
+  display:flex;align-items:flex-end;
+  color:var(--ivory);
+  overflow:hidden;
+}
+.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(25,23,20,.15) 0%, rgba(25,23,20,.75) 100%);
+}
+.hero-content{position:relative;z-index:1;padding:0 clamp(1.2rem,4vw,3rem) clamp(3rem,8vw,5rem);max-width:760px;}
+.hero-badge{
+  display:inline-block;font-size:.78rem;letter-spacing:.06em;
+  background:rgba(244,240,232,.14);border:1px solid rgba(244,240,232,.4);
+  padding:.5rem 1rem;border-radius:100px;margin-bottom:1.4rem;
+}
+.hero h1{color:var(--ivory);}
+
+/* Sello circular giratorio — la única pieza "decorativa" con texto en
+   círculo de toda la web (referencia directa al sello de tinta de una
+   carnicería tradicional). Es el único sitio donde nos permitimos este
+   recurso, precisamente para que destaque en vez de repetirse. */
+.hero-stamp{
+  position:absolute;z-index:1;
+  top:clamp(1.4rem,4vw,2.2rem);right:clamp(1.2rem,4vw,3rem);
+  width:clamp(84px,11vw,120px);height:clamp(84px,11vw,120px);
+  color:rgba(244,240,232,.85);
+  animation:spin 34s linear infinite;
+}
+.hero-stamp svg{width:100%;height:100%;}
+.hero-stamp circle{fill:none;stroke:currentColor;stroke-width:1;opacity:.7;}
+.hero-stamp text{font-family:var(--font-body);font-size:6.6px;letter-spacing:.14em;fill:currentColor;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media (max-width:640px){.hero-stamp{display:none;}}
+@media (prefers-reduced-motion:reduce){.hero-stamp{animation:none;}}
+.hero-sub{max-width:480px;font-size:1.05rem;opacity:.92;}
+.hero-cta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.6rem;}
+
+/* ===================== SECTIONS ===================== */
+.section{padding:clamp(4rem,9vw,7rem) clamp(1.2rem,4vw,3rem);max-width:var(--max-w);margin:0 auto;}
+
+/* Franjas alternas en "papel de estraza" para dar ritmo sin depender de
+   etiquetas repetidas encima de cada título — el propio fondo marca el paso
+   de una sección a otra. */
+.specialties, .order, .visit{background:var(--paper);}
+.specialties, .order{border-radius:var(--radius);}
+
+/* Specialties — fichas de mostrador, no tarjetas SaaS numeradas.
+   El corte de esquina y el icono de línea sustituyen al 01/02/03. */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem;margin-top:2.5rem;}
+.card{
+  background:var(--ivory);
+  padding:1.9rem 1.8rem 1.7rem;
+  border:1px solid rgba(25,23,20,.1);
+  clip-path:polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(25,23,20,.1);}
+.card-icon{
+  display:block;width:34px;height:34px;color:var(--burgundy);margin-bottom:1rem;
+}
+.card-icon svg{width:100%;height:100%;}
+.card h3{font-size:1.4rem;margin-top:.1rem;}
+.card p{font-size:.92rem;color:#4a453f;margin:0;}
+
+/* Suppliers — tira de fichas tipo etiqueta de mostrador, sin puntos sueltos */
+.suppliers{text-align:center;}
+.suppliers h2{max-width:600px;margin-left:auto;margin-right:auto;}
+.suppliers-list{
+  list-style:none;padding:0;margin:2.2rem auto 0;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem .8rem;
+  max-width:820px;
+}
+.suppliers-list li{display:inline-flex;}
+.suppliers-list li span{
+  font-family:var(--font-display);font-size:1.02rem;font-style:italic;
+  color:var(--burgundy);
+  padding:.5rem 1.1rem;
+  border:1px solid rgba(94,27,37,.28);
+  border-radius:100px;
+  background:var(--white);
+}
+
+/* About + gallery */
+.about{display:grid;grid-template-columns:1fr;gap:2.5rem;}
+.about-text{max-width:560px;}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;}
+
+/* Las fotos vienen de móviles distintos, con luces distintas (vitrina, calle, interior).
+   Este tratamiento uniforme (mismo contraste/saturación + velo de marca) hace que se
+   perciban como una colección editada a propósito, no como fotos sueltas sin criterio. */
+.gallery-item{
+  position:relative;overflow:hidden;border-radius:var(--radius);
+  background:var(--carbon);
+}
+.gallery img{
+  width:100%;height:220px;object-fit:cover;
+  /* center 38%: para fotos verticales (900×1200) recortadas a un marco
+     horizontal, esto evita cortar justo por el centro y deja ver mejor
+     la parte alta del producto en vez de recortar a partes iguales
+     arriba y abajo. */
+  object-position:center 38%;
+  display:block;
+  filter:saturate(.92) contrast(1.06) brightness(.98);
+  transition:transform .5s ease, filter .5s ease;
+}
+.gallery-item::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg, rgba(25,23,20,0) 55%, rgba(25,23,20,.22) 100%);
+  mix-blend-mode:multiply;
+}
+.gallery-item:hover img{transform:scale(1.04);filter:saturate(1) contrast(1.08) brightness(1);}
+
+/* Si una foto no llega a cargar (ruta incorrecta, archivo aún no subido...),
+   ocultamos el hueco entero en vez de dejar ver el icono de imagen rota:
+   así la web nunca se ve "con errores" aunque falte una foto puntual. */
+.gallery-item--broken{display:none;}
+
+@media (max-width:640px){.gallery{grid-template-columns:repeat(2,1fr);}.gallery img{height:150px;}}
+
+/* Order form */
+.order{background:var(--white);border-radius:var(--radius);}
+.order-sub{max-width:520px;}
+.order-form{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-top:2rem;}
+.field{display:flex;flex-direction:column;gap:.35rem;}
+.field-wide{grid-column:1/-1;}
+.field label{font-size:.85rem;font-weight:700;}
+.field input,.field select,.field textarea{
+  font-family:inherit;font-size:1rem;padding:.75rem .9rem;
+  border:1px solid rgba(25,23,20,.2);border-radius:var(--radius);
+  background:var(--ivory);min-height:44px;
+}
+.field input:invalid[required]{box-shadow:none;}
+.field-error{font-size:.78rem;color:var(--burgundy);min-height:1em;}
+.field-checkbox{flex-direction:row;align-items:flex-start;gap:.6rem;}
+.field-checkbox input{min-height:auto;width:20px;height:20px;margin-top:.15rem;}
+.field-checkbox label{font-weight:400;font-size:.85rem;}
+.field-checkbox a{text-decoration:underline;}
+.form-submit{grid-column:1/-1;margin-top:.5rem;}
+.form-note{grid-column:1/-1;font-size:.8rem;color:#665f56;margin:0;}
+@media (max-width:640px){.order-form{grid-template-columns:1fr;}}
+
+/* Reviews */
+.reviews-wrap{display:grid;grid-template-columns:1fr auto;gap:2.5rem;align-items:start;margin-top:2rem;}
+.reviews-list{display:flex;flex-direction:column;gap:1.2rem;}
+.review-card{
+  position:relative;background:var(--white);
+  padding:1.6rem 1.6rem 1.3rem 3.2rem;
+  border-left:3px solid var(--sand);
+}
+.review-mark{
+  position:absolute;left:.6rem;top:.1rem;
+  font-family:var(--font-display);font-size:3rem;line-height:1;
+  color:var(--sand);
+}
+.review-card p{font-style:italic;margin:0;}
+.review-card cite{display:block;margin-top:.7rem;font-style:normal;font-size:.8rem;color:#7a736a;}
+.review-cta{display:flex;flex-direction:column;align-items:center;gap:1rem;text-align:center;}
+.qr-link{
+  display:inline-block;border-radius:var(--radius);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.qr-link:hover,.qr-link:focus-visible{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(25,23,20,.15);
+}
+.qr-code{border:1px solid rgba(25,23,20,.1);pointer-events:none;}
+@media (max-width:760px){.reviews-wrap{grid-template-columns:1fr;}}
+
+/* Visit */
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;}
+.map-placeholder{
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;
+  aspect-ratio:4/3;color:var(--ivory);
+  border-radius:var(--radius);font-weight:700;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(198,167,123,.16) 0%, transparent 45%),
+    radial-gradient(circle at 75% 70%, rgba(198,167,123,.10) 0%, transparent 50%),
+    var(--forest);
+  transition:background .2s ease;
+}
+/* Textura tipo "calles de mapa" muy sutil, solo decorativa */
+.map-placeholder::before{
+  content:"";position:absolute;inset:0;opacity:.10;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(244,240,232,.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,240,232,.6) 1px, transparent 1px);
+  background-size:34px 34px;
+}
+.map-placeholder:hover{background-color:#1a2b21;}
+.map-pin{
+  position:relative;z-index:1;
+  width:38px;height:38px;
+  color:var(--sand);
+}
+.map-placeholder span.map-label{position:relative;z-index:1;font-size:1rem;display:inline-flex;align-items:center;gap:.5rem;}
+.map-placeholder span.map-label::after{
+  content:"";width:7px;height:7px;
+  border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(-45deg);transition:transform .2s ease;
+}
+.map-placeholder:hover span.map-label::after{transform:rotate(-45deg) translate(2px,-2px);}
+.visit-hours{margin:1rem 0;font-size:.95rem;}
+.visit-hours dt{font-weight:700;}
+.visit-hours dd{margin:0 0 .6rem;}
+.visit-phone a{font-size:1.2rem;font-weight:700;}
+.visit-cta{display:flex;gap:1rem;margin-top:1.4rem;flex-wrap:wrap;}
+@media (max-width:760px){.visit{grid-template-columns:1fr;}}
+
+/* Footer */
+.site-footer{background:var(--carbon);color:var(--ivory);text-align:center;padding:2.5rem 1rem;font-size:.85rem;}
+.footer-brand{font-family:var(--font-display);font-size:1.1rem;margin-bottom:.3rem;}
+.footer-legal a{text-decoration:underline;margin:0 .3rem;}
+
+/* Floating WhatsApp */
+.floating-whatsapp{
+  position:fixed;right:1.2rem;bottom:1.2rem;z-index:60;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--forest);color:var(--ivory);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .btn,.main-nav{transition:none;}
+}
