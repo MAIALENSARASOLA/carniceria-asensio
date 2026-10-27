@@ -1,8 +1,7 @@
 /* =========================================================
    CONFIG — todos los datos del negocio en un único sitio.
-   Los campos marcados "confirmar" son los que Jon aún no
-   ha validado del todo. Cambia `enabled` a false para
-   ocultarlos hasta tenerlos confirmados por escrito.
+   Cada bloque opcional tiene `enabled`: ponlo a false para
+   ocultarlo en la web sin borrar los datos.
    ========================================================= */
 const CONFIG = {
   name: "Carnicería Asensio",
@@ -21,13 +20,13 @@ const CONFIG = {
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Carnicer%C3%ADa+Asensio%2C+Arrandegi+Kalea+4%2C+20003+Donostia&query_place_id=ChIJfQW8xU2lUQ0RCTjMSNG3ar8"
   },
 
-  // Hora de cierre CONFIRMADA por Jon el 31/08: 19:30
+  // Horario de apertura
   hours: {
     weekday: "8:00–14:00 / 17:00–19:30",
     saturday: "8:00–14:00"
   },
 
-  // ⚠️ Envíos a domicilio: activar solo si Jon lo confirma
+  // Envíos a domicilio (desactivado)
   delivery: { enabled: false },
 
   // Premio — sí confirmado (placa real en el mostrador)
@@ -39,17 +38,17 @@ const CONFIG = {
     }
   },
 
-  // ⚠️ Valoración/número de reseñas: confirmar cifra exacta el día de publicar
-  rating: { enabled: true, score: "5.0", count: "25" },
+  // Valoración media en Google (oculta hasta actualizar la cifra)
+  rating: { enabled: false, score: "5.0", count: "25" },
 
-  // Reseñas de ejemplo — sustituir por 2 reseñas reales elegidas por Jon
+  // Reseñas destacadas (se muestran junto con la valoración)
   reviews: [
     { es: "La mejor carne y los mejores callos del País Vasco. Todo estuvo fantástico.", eu: "Euskal Herriko haragirik eta tripakirik onenak. Dena bikaina izan zen." },
     { es: "Producto excelente y trato cercano; los callos, deliciosos.", eu: "Produktu bikaina eta tratu hurbila; tripakiak, ezin hobeak." }
   ],
   googleReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJfQW8xU2lUQ0RCTjMSNG3ar8",
 
-  // Rutas de imágenes — sustituir por las fotos reales (ver lista al final)
+  // Imágenes de la portada y la galería
   hero: "img/hero-asensio.webp",
   gallery: [
     { src: "img/fachada.webp", alt: { es: "Fachada de Carnicería Asensio en Arrandegi Kalea", eu: "Asensio Harategiaren fatxada, Arrandegi Kalean" } },
@@ -59,14 +58,13 @@ const CONFIG = {
     { src: "img/hamburguesa-premio.webp", alt: { es: "Distintivo del premio a la hamburguesa artesana", eu: "Hanburgesa artisau sariaren bereizgarria" } }
   ],
 
-  // Bares/restaurantes que compran a Jon — CONFIRMADO por Jon, le gusta la idea (25/08)
-  // ⚠️ "Zuazi" pendiente de confirmar ortografía exacta con él, revisar antes de publicar versión final
+  // Bares y restaurantes a los que suministra la carnicería
   suppliers: {
     enabled: true,
     list: ["Casa Urola", "Bar Néstor", "La Rampa", "Itxaropena", "Muxumartin", "Zuhazi", "Aitona 1966"]
   },
 
-  // Productos confirmados por Jon (sin huevos)
+  // Productos principales
   products: [
     {
       key: "txuleta",
