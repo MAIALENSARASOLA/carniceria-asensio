@@ -38,13 +38,13 @@ const CONFIG = {
     }
   },
 
-  // Valoración media en Google (oculta hasta actualizar la cifra)
-  rating: { enabled: false, score: "5.0", count: "25" },
+  // Valoración media en Google (actualizada el 27/10/2026)
+  rating: { enabled: true, score: "4,9", count: "26" },
 
-  // Reseñas destacadas (se muestran junto con la valoración)
+  // Reseñas destacadas (textos reales de Google)
   reviews: [
-    { es: "La mejor carne y los mejores callos del País Vasco. Todo estuvo fantástico.", eu: "Euskal Herriko haragirik eta tripakirik onenak. Dena bikaina izan zen." },
-    { es: "Producto excelente y trato cercano; los callos, deliciosos.", eu: "Produktu bikaina eta tratu hurbila; tripakiak, ezin hobeak." }
+    { author: "Nerea G.", es: "Muy buen producto y amabilidad, los callos ricos ricos. Recomendable 100%.", eu: "Produktu oso ona eta adeitasuna; tripakiak, goxo-goxoak. % 100 gomendagarria." },
+    { author: "Nerea U.", es: "Txuletas de muy buena calidad y muy buena atención.", eu: "Kalitate handiko txuletak eta arreta oso ona." }
   ],
   googleReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJfQW8xU2lUQ0RCTjMSNG3ar8",
 
@@ -308,7 +308,7 @@ function renderReviews(lang) {
     <blockquote class="review-card">
       <span class="review-mark" aria-hidden="true">&rdquo;</span>
       <p>${r[lang]}</p>
-      <cite>${citeText}</cite>
+      <cite>${r.author} · ${citeText}</cite>
     </blockquote>
   `).join("");
 }
